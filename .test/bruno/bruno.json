@@ -1,0 +1,197 @@
+{
+  "name": "bruno",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "01_test",
+      "filename": "01_test.bru",
+      "seq": 1,
+      "settings": {
+        "encodeUrl": true,
+        "timeout": 0,
+        "followRedirects": true,
+        "maxRedirects": 5
+      },
+      "tags": [],
+      "examples": [],
+      "request": {
+        "url": "{{baseUrl}}/greeting",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "json": null,
+          "text": null,
+          "xml": null,
+          "graphql": null,
+          "sparql": null,
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {
+          "req": null,
+          "res": "test(\"GET /greeting → Status 200\", () => {\n    expect(res.status).to.equal(200);\n});\n\ntest(\"Response contains 'text'\", () => {\n    expect(res.body).to.have.property(\"text\");\n});"
+        },
+        "vars": {
+          "req": [],
+          "res": []
+        },
+        "assertions": [],
+        "tests": null,
+        "docs": null,
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "02_test",
+      "filename": "02_test.bru",
+      "seq": 3,
+      "settings": {
+        "encodeUrl": true,
+        "timeout": 0,
+        "followRedirects": true,
+        "maxRedirects": 5
+      },
+      "tags": [],
+      "examples": [],
+      "request": {
+        "url": "{{baseUrl}}/greeting",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"name\": \"Ivan\",\n  \"surname\": \"Ivanov\"\n}\n",
+          "text": null,
+          "xml": null,
+          "graphql": null,
+          "sparql": null,
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {
+          "req": null,
+          "res": "test(\"POST /greeting → Status 200\", () => {\n    expect(res.status).to.equal(200);\n});\n\ntest(\"Response contains 'id'\", () => {\n    expect(res.body).to.have.property(\"id\");\n});\n\ntest(\"Response contains 'text'\", () => {\n    expect(res.body).to.have.property(\"text\");\n});\n\n\nbru.setVar(\"userId\", res.body.id);"
+        },
+        "vars": {
+          "req": [],
+          "res": []
+        },
+        "assertions": [],
+        "tests": null,
+        "docs": null,
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "03_test",
+      "filename": "03_test.bru",
+      "seq": 3,
+      "settings": {
+        "encodeUrl": true,
+        "timeout": 0,
+        "followRedirects": true,
+        "maxRedirects": 5
+      },
+      "tags": [],
+      "examples": [],
+      "request": {
+        "url": "{{baseUrl}}/greeting/{{userId}}",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "json": null,
+          "text": null,
+          "xml": null,
+          "graphql": null,
+          "sparql": null,
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {
+          "req": null,
+          "res": "if (res.status === 404) {\n    test(\"GET /greeting/{{userId}} → 404 if user not found\", () => {\n        expect(res.status).to.equal(404);\n    });\n} else {\n    test(\"GET /greeting/{{userId}} → Status 200\", () => {\n        expect(res.status).to.equal(200);\n    });\n\n    test(\"Response contains 'name'\", () => {\n        expect(res.body).to.have.property(\"name\");\n    });\n\n    test(\"Response contains 'surname'\", () => {\n        expect(res.body).to.have.property(\"surname\");\n    });\n}"
+        },
+        "vars": {
+          "req": [],
+          "res": []
+        },
+        "assertions": [],
+        "tests": null,
+        "docs": null,
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    }
+  ],
+  "activeEnvironmentUid": "cytDpAoqiABCoScY5wOWw",
+  "environments": [
+    {
+      "name": "local",
+      "variables": [
+        {
+          "name": "baseUrl",
+          "value": "http://localhost:8080",
+          "type": "text",
+          "enabled": true,
+          "secret": false
+        }
+      ]
+    }
+  ],
+  "root": {
+    "request": {
+      "auth": {
+        "mode": "none",
+        "awsv4": null,
+        "basic": null,
+        "bearer": null,
+        "digest": null,
+        "ntlm": null,
+        "oauth2": null,
+        "wsse": null,
+        "apikey": null
+      },
+      "script": {},
+      "vars": {}
+    }
+  },
+  "brunoConfig": {
+    "opencollection": "1.0.0",
+    "name": "bruno",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "proxy": {
+      "inherit": true,
+      "config": {
+        "protocol": "http",
+        "hostname": "",
+        "port": "",
+        "auth": {
+          "username": "",
+          "password": ""
+        },
+        "bypassProxy": ""
+      }
+    }
+  },
+  "exportedAt": "2026-02-12T14:48:48.128Z",
+  "exportedUsing": "Bruno/3.0.2"
+}

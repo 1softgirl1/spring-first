@@ -1,0 +1,27 @@
+info:
+  name: 01_test
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{baseUrl}}/greeting"
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        test("GET /greeting → Status 200", () => {
+            expect(res.status).to.equal(200);
+        });
+
+        test("Response contains 'text'", () => {
+            expect(res.body).to.have.property("text");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
