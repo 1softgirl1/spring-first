@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
@@ -22,11 +23,14 @@ class HelloController(
 ) {
 
     @GetMapping
-    fun hello(@RequestBody(required = false) id: UUID?): ResponseEntity<Any> {
-        if (id == null) {
+    fun hello(@RequestParam(required = false) name: String?,
+              @RequestParam(required = false) surname: String?):
+            ResponseEntity<Any> {
+        if (name == null && surname == null) {
             return ResponseEntity.ok(GreetingMain())
         }
-        val user = userRepository.findById(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+
+        val user = UserData(name = name ?: "", surname = surname ?: "")
         return ResponseEntity.ok(user)
 
     }
