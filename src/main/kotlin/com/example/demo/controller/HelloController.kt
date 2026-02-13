@@ -23,18 +23,14 @@ class HelloController(
 ) {
 
     @GetMapping
-    fun hello(
-        @RequestParam(required = false) name: String?,
-        @RequestParam(required = false) surname: String?
-    ): ResponseEntity<Any> {
-        return if (name != null && surname != null) {
-            val user = UserData(name = name, surname = surname)
-            ResponseEntity.ok(user)
-        } else {
-            ResponseEntity.ok(GreetingMain())
+    fun hello(@RequestParam(required = false) id: UUID?): ResponseEntity<Any> {
+        if (id == null) {
+            return ResponseEntity.ok(GreetingMain())
         }
-    }
+        val user = userRepository.findById(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        return ResponseEntity.ok(user)
 
+    }
     @PostMapping
     fun saveUser(@RequestBody(required = true) user: UserData): ResponseEntity<GreetingUser> {
         val id = UUID.randomUUID()
